@@ -157,20 +157,14 @@ public class LinkedList {
             removeNode(0);
         }
     }
-    public void showLinkedList(){
-        if (size!=0) {
-            System.out.print("[");
-            Node currentNode = head;
-            while(true){
-                System.out.print(currentNode);
-                if(currentNode.isTail) {
-                    System.out.println("]");
-                    break;
-                }
-                System.out.print(", ");
-                currentNode = currentNode.nextNode;
-            }
-        } else System.out.println("List is empty.");
+    @Override
+    public String toString(){
+        StringBuilder list = new StringBuilder("[");
+        for (int i = 0; i < size-1; i++) {
+            list.append(getNode(i)).append(", ");
+        }
+        list.append(getLast()!= null ? getLast() : "").append("]");
+        return list.toString();
     }
     /**
      * <p>An object for storing a single node of linked list. Has five attributes:</p>
