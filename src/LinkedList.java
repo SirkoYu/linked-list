@@ -9,37 +9,76 @@ public class LinkedList {
     private int size = 0;
 
     public void addNode(int data){
-        if (size==0){
-
+        if(size == 0) {
             head = new Node(data);
             tail = head;
             head.isHead = true;
-            tail.isTail = true;
-        }
-        else {
-            tail.nextNode = new Node(data);
-            tail.nextNode.previousNode = tail;
+            head.isTail = true;
+        }else {
+            Node newNode = new Node(data);
+            newNode.isTail = true;
+            tail.nextNode = newNode;
             tail.isTail = false;
-
-            tail = tail.nextNode;
-            tail.isTail = true;
+            tail = newNode;
         }
         size++;
     }
+
+    public void removeNode(int index){
+        if (size > 1) {
+            if(index == 0) {
+                head.nextNode.isHead = true;
+                head.nextNode.isTail = head.isTail;
+                head = head.nextNode;
+            }
+            else if(index == size -1){
+                Node currentNode = head;
+                for (int i = 0; i < index-1; i++) {
+                    currentNode = currentNode.nextNode;
+                }
+                currentNode.isHead = currentNode.nextNode.isHead;
+                currentNode.isTail = true;
+                currentNode.nextNode = null;
+            }
+            else {
+                Node currentNode = head;
+                for (int i = 0; i < index-1; i++) {
+                    currentNode = currentNode.nextNode;
+                }
+                currentNode.nextNode = currentNode.nextNode.nextNode;
+            }
+        }
+
+        size--;
+        if(size == 0){
+            head=null;
+            tail=null;
+        }
+    }
+
     public int size(){
         return this.size;
     }
     public boolean isEmpty(){
         return size==0;
     }
+    public void clear(){
+        while(!this.isEmpty()){
+            removeNode(0);
+        }
+    }
     public void showLinkedList(){
         if (size!=0) {
-            Node node = head;
+            System.out.print("[");
+            Node currentNode = head;
             while(true){
-                System.out.println(node);
-                if(node.isTail)
+                System.out.print(currentNode);
+                if(currentNode.isTail) {
+                    System.out.println("]");
                     break;
-                node = node.nextNode;
+                }
+                System.out.print(", ");
+                currentNode = currentNode.nextNode;
             }
         } else System.out.println("List is empty.");
     }
@@ -57,7 +96,6 @@ public class LinkedList {
     static class Node {
         private int data;
         private Node nextNode = null;
-        private Node previousNode = null;
 
         boolean isHead = false;
 
@@ -80,9 +118,6 @@ public class LinkedList {
         }
         public boolean hasNextNode(){
             return nextNode != null;
-        }
-        public boolean hasPreviousNode(){
-            return previousNode != null;
         }
         public int getData(){
             return data;
