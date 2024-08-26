@@ -8,6 +8,10 @@ public class LinkedList {
 
     private int size = 0;
 
+    /**
+     * <p>Add a new node to linked list.</p>
+     * @param data {@link Integer} a node value.
+     */
     public void addNode(int data){
         if(size == 0) {
             head = new Node(data);
@@ -24,6 +28,10 @@ public class LinkedList {
         size++;
     }
 
+    /**
+     * Removes the node from linked list by provided index.
+     * @param index {@link Integer} index of element to remove.
+     */
     public void removeNode(int index){
         if (size > 1) {
             if(index == 0) {
@@ -50,6 +58,11 @@ public class LinkedList {
         }
     }
 
+    /**
+     * Returns the node by its index.
+     * @param index {@link Integer} index of the node.
+     * @return {@link Node} object.
+     */
     private Node getNode(int index) {
         Node currentNode = head;
         for (int i = 0; i < index -1; i++) {
@@ -105,7 +118,7 @@ public class LinkedList {
 
         /**
          * <p>A constructor for single node of linked list.
-          * @param data stores an integer node value.</p>
+          * @param data {@link Integer} stores an integer node value.</p>
          */
 
         public Node( int data){

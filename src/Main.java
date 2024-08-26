@@ -1,13 +1,12 @@
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
+        List<Integer> list = List.of(10,11,14,22,35,56,76);
         LinkedList linkedList = new LinkedList();
-        linkedList.addNode(10);
-        linkedList.addNode(11);
-        linkedList.addNode(14);
-        linkedList.addNode(22);
-        linkedList.addNode(35);
-        linkedList.addNode(56);
-        linkedList.addNode(76);
+        for(Integer num: list){
+            linkedList.addNode(num);
+        }
         linkedList.showLinkedList();
         linkedList.clear();
         linkedList.showLinkedList();
