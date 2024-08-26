@@ -8,14 +8,41 @@ public class LinkedList {
 
     private int size = 0;
 
+    public void addNode(int data){
+        if (size==0){
+
+            head = new Node(data);
+            tail = head;
+            head.isHead = true;
+            tail.isTail = true;
+        }
+        else {
+            tail.nextNode = new Node(data);
+            tail.nextNode.previousNode = tail;
+            tail.isTail = false;
+
+            tail = tail.nextNode;
+            tail.isTail = true;
+        }
+        size++;
+    }
     public int size(){
         return this.size;
     }
     public boolean isEmpty(){
         return size==0;
     }
-
-
+    public void showLinkedList(){
+        if (size!=0) {
+            Node node = head;
+            while(true){
+                System.out.println(node);
+                if(node.isTail)
+                    break;
+                node = node.nextNode;
+            }
+        } else System.out.println("List is empty.");
+    }
     /**
      * <p>An object for storing a single node of linked list. Has five attributes:</p>
      * <ul>
