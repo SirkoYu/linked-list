@@ -32,19 +32,13 @@ public class LinkedList {
                 head = head.nextNode;
             }
             else if(index == size -1){
-                Node currentNode = head;
-                for (int i = 0; i < index-1; i++) {
-                    currentNode = currentNode.nextNode;
-                }
+                Node currentNode = getNode(index);
                 currentNode.isHead = currentNode.nextNode.isHead;
                 currentNode.isTail = true;
                 currentNode.nextNode = null;
             }
             else {
-                Node currentNode = head;
-                for (int i = 0; i < index-1; i++) {
-                    currentNode = currentNode.nextNode;
-                }
+                Node currentNode = getNode(index);
                 currentNode.nextNode = currentNode.nextNode.nextNode;
             }
         }
@@ -54,6 +48,14 @@ public class LinkedList {
             head=null;
             tail=null;
         }
+    }
+
+    private Node getNode(int index) {
+        Node currentNode = head;
+        for (int i = 0; i < index -1; i++) {
+            currentNode = currentNode.nextNode;
+        }
+        return currentNode;
     }
 
     public int size(){
