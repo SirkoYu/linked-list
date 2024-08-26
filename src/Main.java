@@ -8,7 +8,9 @@ public class Main {
             linkedList.addNode(num);
         }
         linkedList.showLinkedList();
-        linkedList.clear();
+//        linkedList.clear();
+//        linkedList.showLinkedList();
+        linkedList.insertNode(42, 5);
         linkedList.showLinkedList();
     }
 }
