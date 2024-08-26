@@ -11,8 +11,13 @@
  */
 
 public class LinkedList {
-    public static void main(String[] args) {
+    private Node head;
+    private Node tail;
 
+    private int size;
+
+    public int size(){
+        return this.size;
     }
     static class Node {
         private int data;
@@ -25,7 +30,7 @@ public class LinkedList {
 
         /**
          * <p>A constructor for single node of linked list.
-          * @param data Stores an integer node value.</p>
+          * @param data stores an integer node value.</p>
          */
 
         public Node( int data){
@@ -49,7 +54,7 @@ public class LinkedList {
         }
         @Override
         public String toString(){
-            return STR."Node value = \{data}";
+            return STR."Node data = \{data}";
         }
     }
 }
