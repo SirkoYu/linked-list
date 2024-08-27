@@ -61,11 +61,12 @@ public class LinkedList {
                 addNode(data);
             }
             else {
-                Node currentNode = getNode(index);
+                Node currentNode = getNode(index-1);
                 Node newNode = new Node(data);
                 if (currentNode != null) {
                     newNode.nextNode = currentNode.nextNode;
                     currentNode.nextNode = newNode;
+                    size++;
                 }
             }
         } else {
@@ -126,7 +127,7 @@ public class LinkedList {
             }
             else {
                 Node currentNode = head;
-                for (int i = 0; i < index - 1; i++) {
+                for (int i = 0; i < index; i++) {
                     currentNode = currentNode.nextNode;
                 }
                 return currentNode;
@@ -160,7 +161,7 @@ public class LinkedList {
     @Override
     public String toString(){
         StringBuilder list = new StringBuilder("[");
-        for (int i = 0; i < size-1; i++) {
+        for (int i = 0; i < size - 1; i++) {
             list.append(getNode(i)).append(", ");
         }
         list.append(getLast()!= null ? getLast() : "").append("]");
