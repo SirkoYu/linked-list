@@ -336,7 +336,7 @@ public class LinkedList {
             list.append(node.isPresent() ? node.get() : "Node is null").append(", ");
         }
         Optional<Node> node = getLast();
-        node.ifPresent(value -> list.append(value.isTail() ? value : "").append("]"));
+        node.ifPresentOrElse(value -> list.append(value.isTail() ? value : "").append("]"), () -> list.append("]"));
         return list.toString();
     }
     /**

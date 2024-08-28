@@ -26,7 +26,7 @@ public class Main {
         System.out.println(node.hasNextNode() ? "Node has next Node." : "Node does`t have next Node.");
         System.out.println(STR."Node data: \{node.getData()}");
 
-        System.out.print(linkedList.isEmpty()? "Empty list." : linkedList);
+        System.out.println(linkedList.isEmpty()? "Empty list." : linkedList);
 
         linkedList.clear();
         System.out.println(linkedList);
