@@ -2,6 +2,12 @@ import java.util.Optional;
 
 /**
  * <p>Singly linked list.</p>
+ * <p>Has three attributes: </p>
+ * <ul>
+ *     <li>head - {@link Node} type head of the list.</li>
+ *     <li>tail - {@link Node} type tail of the list.</li>
+ *     <li>size - {@link Integer} type size of the list.</li>
+ * </ul>
  * @author ITryHard
  */
 public class LinkedList {
@@ -11,8 +17,8 @@ public class LinkedList {
     private int size = 0;
 
     /**
-     * <p>Add a new node to the ending of linked list.</p>
-     * @param data {@link Integer} type variable to store {@link Node} data.
+     * <p>Adds new node with provided data at the ending of linked list. </p>
+     * @param data {@link Integer} type, contains node data.
      */
     public void addNode(int data){
         if(size == 0) {
@@ -30,8 +36,8 @@ public class LinkedList {
         size++;
     }
     /**
-     * <p>Add a new node to the beginning of linked list.</p>
-     * @param data {@link Integer} type variable to store {@link Node} data.
+     * <p>Add a new node with provided data at the beginning of linked list.</p>
+     * @param data {@link Integer} type, contains node data.
      */
     public void addFirstNode(int data){
         if(size==0){
@@ -51,9 +57,10 @@ public class LinkedList {
         size++;
     }
     /**
-     * Add a new node in linked list by provided index.
-     * @param data {@link Integer} type variable to store {@link Node} data.
-     * @param index {@link Integer} index where the node will be inserted.
+     * <p>Add a new node with provided data at the provided index in linked list.</p>
+     * <p>Takes O(n) time.</p>
+     * @param data has {@link Integer} type, contains node data.
+     * @param index has {@link Integer} type, contains index of new node`s position.
      */
     public void insertNode(int data, int index){
         if(index < size && !(index<0)){
@@ -78,8 +85,8 @@ public class LinkedList {
         }
     }
     /**
-     * <p>Removes the node from linked list by provided index.</p>
-     * @param index {@link Integer} index of element to remove.
+     * <p>Removes the node from linked list at provided index.</p>
+     * @param index has {@link Integer} type, contains index of the element to remove.
      */
     public void removeNode(int index){
         if (index < size && !(index < 0)) {
@@ -118,10 +125,11 @@ public class LinkedList {
         }
     }
 
+
     /**
-     * <p>Returns the node by its index.</p>
-     * @param index {@link Integer} index of the node.
-     * @return {@link Node} object.
+     * <p>Returns an Optional object of the node at provided index.</p>
+     * @param index has {@link Integer} type, contains the index of node.
+     * @return {@link Optional} object, witch contains the node.
      */
     private Optional<Node> getNode(int index) {
         if (index < size && !(index < 0)) {
@@ -144,6 +152,12 @@ public class LinkedList {
             return Optional.empty();
         }
     }
+
+    /**
+     * <p>Returns node object by provided index.</p>
+     * @param index has {@link Integer} type, contains the index of node.
+     * @return {@link Node} object.
+     */
     public Node get(int index) {
         if (index < size && !(index < 0)) {
             if(index == 0 ) {
@@ -171,6 +185,15 @@ public class LinkedList {
         }
         return null;
     }
+
+    /**
+     * Splits the current linked list into a sublist starting from the given start index up to,
+     * but not including, the end index. If the list size is 1 or less, it returns the current list.
+     *
+     * @param start the starting index of the sublist (inclusive).
+     * @param end the ending index of the sublist (exclusive).
+     * @return a new LinkedList containing elements from the start index up to the end index.
+     */
     public LinkedList splitList(int start, int end){
         if (size <= 1) {
             return this;
@@ -187,6 +210,12 @@ public class LinkedList {
             }
             return newList;
     }
+    /**
+     * Sorts the linked list using the merge sort algorithm. If the size of the list is 1 or less,
+     * it returns the current list as it is already sorted.
+     *
+     * @return a sorted LinkedList.
+     */
     public LinkedList mergeSort(){
         if(size <= 1){
             return this;
@@ -201,6 +230,15 @@ public class LinkedList {
         return mergeList(left, right);
 
     }
+    /**
+     * Merges two sorted linked lists into a single sorted linked list. The method iterates through
+     * both input lists, comparing their elements and adding the smaller element to the new list.
+     * It continues until all elements from both lists have been added to the new list.
+     *
+     * @param left the first sorted LinkedList.
+     * @param right the second sorted LinkedList.
+     * @return a new LinkedList containing all elements from both input lists, sorted in ascending order.
+     */
     private static LinkedList mergeList(LinkedList left, LinkedList right){
         LinkedList newList = new LinkedList();
         int i=0, j=0;
@@ -237,29 +275,59 @@ public class LinkedList {
 
         return newList;
     }
+    /**
+     * Retrieves the last node of the linked list, if it exists.
+     *
+     * @return an Optional containing the last node if the list is not empty;
+     *         otherwise, an empty Optional.
+     */
     private Optional<Node> getLast() {
         if(!isEmpty())
             return Optional.of(tail);
         return Optional.empty();
     }
-
+    /**
+     * Retrieves the first node of the linked list, if it exists.
+     *
+     * @return an Optional containing the first node if the list is not empty;
+     *         otherwise, an empty Optional.
+     */
     private Optional<Node> getFirst() {
         if(!isEmpty())
             return Optional.of(head);
         else return Optional.empty();
     }
 
+    /**
+     * Returns the number of elements in the linked list.
+     *
+     * @return the size of the linked list.
+     */
     public int size(){
         return this.size;
     }
+    /**
+     * Checks if the linked list is empty.
+     *
+     * @return true if the linked list has no elements; false otherwise.
+     */
     public boolean isEmpty(){
         return size==0;
     }
+    /**
+     * Removes all elements from the linked list.
+     */
     public void clear(){
         while(!this.isEmpty()){
             removeNode(0);
         }
     }
+    /**
+     * Returns a string representation of the linked list. The representation
+     * includes all nodes in the list, separated by commas, enclosed in square brackets.
+     *
+     * @return a string representing the elements of the linked list.
+     */
     @Override
     public String toString(){
         StringBuilder list = new StringBuilder("[");
@@ -298,19 +366,44 @@ public class LinkedList {
         public Node( int data){
             this.data = data;
         }
-
+        /**
+         * Checks if this node is the head of the linked list.
+         *
+         * @return true if this node is the head; false otherwise.
+         */
         public boolean isHead(){
             return isHead;
         }
+        /**
+         * Checks if this node is the tail of the linked list.
+         *
+         * @return true if this node is the tail; false otherwise.
+         */
         public boolean isTail(){
             return isTail;
         }
+        /**
+         * Checks if this node has a next node.
+         *
+         * @return true if this node has a next node; false otherwise.
+         */
         public boolean hasNextNode(){
             return nextNode != null;
         }
+        /**
+         * Retrieves the data stored in this node.
+         *
+         * @return the integer data stored in this node.
+         */
         public int getData(){
             return data;
         }
+        /**
+         * Returns a string representation of the node. The representation includes
+         * the node's data value.
+         *
+         * @return a string representing the node's data.
+         */
         @Override
         public String toString(){
             return STR."Node data = \{data}";
