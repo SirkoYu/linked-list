@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 /**
  * <p>Singly linked list.</p>
  * @author ITryHard
@@ -61,13 +63,15 @@ public class LinkedList {
                 addNode(data);
             }
             else {
-                Node currentNode = getNode(index-1);
-                Node newNode = new Node(data);
-                if (currentNode != null) {
+                Optional<Node> node = getNode(index-1);
+                if(node.isPresent()) {
+                    Node currentNode = node.get();
+                    Node newNode = new Node(data);
                     newNode.nextNode = currentNode.nextNode;
                     currentNode.nextNode = newNode;
                     size++;
                 }
+                else System.out.println("Node is null.");
             }
         } else {
             System.out.println("Invalid index.");
@@ -86,16 +90,18 @@ public class LinkedList {
                     head = head.nextNode;
                 }
                 else if(index == size -1){
-                    Node currentNode = getNode(index);
-                    if (currentNode != null) {
-                        currentNode.isHead = currentNode.nextNode.isHead;
-                        currentNode.isTail = true;
-                        currentNode.nextNode = null;
-                    }
+                    Optional<Node> node = getNode(index);
+                    if(node.isPresent()){
+                    Node currentNode = node.get();
+                    currentNode.isHead = currentNode.nextNode.isHead;
+                    currentNode.isTail = true;
+                    currentNode.nextNode = null;
+                    } else System.out.println("Node is null.");
                 }
                 else {
-                    Node currentNode = getNode(index);
-                    if (currentNode != null) {
+                    Optional<Node> node = getNode(index);
+                    if(node.isPresent()) {
+                        Node currentNode = node.get();
                         currentNode.nextNode = currentNode.nextNode.nextNode;
                     }
                 }
@@ -117,7 +123,7 @@ public class LinkedList {
      * @param index {@link Integer} index of the node.
      * @return {@link Node} object.
      */
-    private Node getNode(int index) {
+    private Optional<Node> getNode(int index) {
         if (index < size && !(index < 0)) {
             if(index == 0 ) {
                 return getFirst();
@@ -130,21 +136,117 @@ public class LinkedList {
                 for (int i = 0; i < index; i++) {
                     currentNode = currentNode.nextNode;
                 }
-                return currentNode;
+                return Optional.of(currentNode);
+            }
+        }
+        else {
+            System.out.println("Invalid index");
+            return Optional.empty();
+        }
+    }
+    public Node get(int index) {
+        if (index < size && !(index < 0)) {
+            if(index == 0 ) {
+                if(getFirst().isPresent()){
+                    return getFirst().get();
+                }
+            }
+            else if (index == size -1) {
+                if(getLast().isPresent()){
+                    return getLast().get();
+                }
+            }
+            else {
+                Node currentNode = head;
+                for (int i = 0; i < index; i++) {
+                    currentNode = currentNode.nextNode;
+                }
+                Optional<Node> node = Optional.of(currentNode);
+                return node.get();
             }
         }
         else {
             System.out.println("Invalid index");
             return null;
         }
+        return null;
+    }
+    public LinkedList splitList(int start, int end){
+        if (size <= 1) {
+            return this;
+        }
+            LinkedList newList = new LinkedList();
+            for (int i = start; i < end; i++) {
+                Optional<Node> node = getNode(i);
+                if(node.isPresent()){
+                    newList.addNode(node.get().data);
+                }
+                else {
+                    System.out.println("Node is null.");
+                }
+            }
+            return newList;
+    }
+    public LinkedList mergeSort(){
+        if(size <= 1){
+            return this;
+        }
+        int middle = size / 2;
+        LinkedList left = splitList(0, middle);
+        LinkedList right = splitList(middle, size);
+
+        left = left.mergeSort();
+        right = right.mergeSort();
+
+        return mergeList(left, right);
+
+    }
+    private static LinkedList mergeList(LinkedList left, LinkedList right){
+        LinkedList newList = new LinkedList();
+        int i=0, j=0;
+
+        while (i< left.size() && j< right.size()){
+            Optional<Node> leftNode = left.getNode(i);
+            Optional<Node> rightNode = right.getNode(j);
+            if (leftNode.isPresent() && rightNode.isPresent()) {
+                if(leftNode.get().data <= rightNode.get().data){
+                    newList.addNode(leftNode.get().data);
+                    i++;
+                } else {
+                    newList.addNode(rightNode.get().data);
+                    j++;
+                }
+            } else {
+                System.out.println("Node is null.");
+            }
+        }
+        while (i < left.size()){
+            Optional<Node> leftNode = left.getNode(i);
+            if(leftNode.isPresent()) {
+                newList.addNode(leftNode.get().data);
+                i++;
+            }
+        }
+        while (j < right.size()){
+            Optional<Node> rightNode = right.getNode(j);
+            if(rightNode.isPresent()) {
+                newList.addNode(rightNode.get().data);
+                j++;
+            }
+        }
+
+        return newList;
+    }
+    private Optional<Node> getLast() {
+        if(!isEmpty())
+            return Optional.of(tail);
+        return Optional.empty();
     }
 
-    private Node getLast() {
-        return tail;
-    }
-
-    private Node getFirst() {
-        return head;
+    private Optional<Node> getFirst() {
+        if(!isEmpty())
+            return Optional.of(head);
+        else return Optional.empty();
     }
 
     public int size(){
@@ -161,10 +263,12 @@ public class LinkedList {
     @Override
     public String toString(){
         StringBuilder list = new StringBuilder("[");
-        for (int i = 0; i < size - 1; i++) {
-            list.append(getNode(i)).append(", ");
+        for (int i = 0; i < size-1; i++) {
+            Optional<Node> node = getNode(i);
+            list.append(node.isPresent() ? node.get() : "Node is null").append(", ");
         }
-        list.append(getLast()!= null ? getLast() : "").append("]");
+        Optional<Node> node = getLast();
+        node.ifPresent(value -> list.append(value.isTail() ? value : "").append("]"));
         return list.toString();
     }
     /**
@@ -179,7 +283,7 @@ public class LinkedList {
      * @author ITryHard
      */
     static class Node {
-        private int data;
+        private final int data;
         private Node nextNode = null;
 
         boolean isHead = false;
